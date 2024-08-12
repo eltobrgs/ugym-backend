@@ -1,7 +1,10 @@
 {
-  "name": "my-app",
+  "name": "ugym-app",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "prisma": "bunx prisma generate",
+    "build": "bun install && bun run prisma",
+    "deploy": "bun run src/index.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",

@@ -29,9 +29,12 @@ loginRoute.post("/", async (c: Context) => {
 
   return c.json(
     {
-      message: "Login Success",
       data: {
         token: token,
+        user: {
+          name: user.name,
+          email: user.email,
+      },
       },
     },
     200,
