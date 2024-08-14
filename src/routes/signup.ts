@@ -6,7 +6,6 @@ type UserCreateInput = Omit<User, "id">;
 
 const signupRoute = new Hono();
 
-
 signupRoute.post("/", async (c) => {
   const body = await c.req.json();
   const { name, email, password } = body;
