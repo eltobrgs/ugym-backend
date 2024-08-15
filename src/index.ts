@@ -13,8 +13,8 @@ app.use(cors());
 app.route('/signup', signupRoute);
 app.route('/login', loginRoute);
 
-//Middleware JWT aplicado apenas às rotas protegidas
-app.use('/*', jwt({ secret: Bun.env.JWT_SECRET as string }));
+//Middleware JWT aplicado apenas às rotas abaixo que serao protegidas
+//app.use('/*', jwt({ secret: Bun.env.JWT_SECRET as string }));
 
 // Rotas protegidas
 app.route('/users', usersRoute);
