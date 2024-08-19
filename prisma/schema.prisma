@@ -11,8 +11,18 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String
-  password String
+  id                Int      @id @default(autoincrement())
+  name              String?
+  meta              String?
+  weight            Float?
+  height            Float?
+  trainingDays      Int?
+  disease           String?
+  specialCondition String?
+  phoneNumber       String?
+  birthDate         DateTime?
+  gender            String?
+  experience        String?
+  profileImage      String?
+  email             String   @unique
 }
