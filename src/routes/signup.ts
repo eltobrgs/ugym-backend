@@ -10,7 +10,20 @@ signupRoute.post("/", async (c) => {
   const body = await c.req.json();
   const { name, email, password } = body;
   const cryptPassword = await Bun.password.hash(password);
-  const user: UserCreateInput = { name, email, password: cryptPassword };
+  const user: UserCreateInput = {
+    name, email, password: cryptPassword,
+    meta: null,
+    weight: null,
+    height: null,
+    trainingDays: null,
+    disease: null,
+    specialCondition: null,
+    phoneNumber: null,
+    birthDate: null,
+    gender: null,
+    experience: null,
+    profileImage: null
+  };
   const newUser = await prisma.user.create({ data: user });
   c.status(201);
   return c.json(newUser);
