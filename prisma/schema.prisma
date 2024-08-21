@@ -28,3 +28,8 @@ model User {
   profileImage      String?
   
 }
+
+
+// npx prisma migrate dev --name NOMEDAMIGRACAO>> para banco de desenvolvimento
+// npx prisma migrate deploy >> para banco de produçao 
+// npm prisma generate >> para gerar o client

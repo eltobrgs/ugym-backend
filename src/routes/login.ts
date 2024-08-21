@@ -1,6 +1,7 @@
 import { Hono, Context } from "hono";
 import prisma from "../config/prisma";
 import { sign } from "hono/jwt";
+import { getToken } from "../service/token";
 
 const loginRoute = new Hono();
 
@@ -17,27 +18,16 @@ loginRoute.post("/", async (c: Context) => {
   if (!verify) {
     return c.json({ message: "Senha inválida" }, 400);
   }
-  const secret = Bun.env.JWT_SECRET as string;
-  const token = await sign(
-    {
-      id: user.id,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
-    },
-    secret,
-    "HS256",
-  );
 
   return c.json(
     {
-      data: {
-        token: token,
-        user: {
-          name: user.name,
-          email: user.email,
-      },
+      token: await getToken(user.id),
+      user: {
+        name: user.name,
+        email: user.email,
       },
     },
-    200,
+    200
   );
 });
 

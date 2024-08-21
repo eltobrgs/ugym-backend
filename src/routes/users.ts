@@ -39,9 +39,9 @@ usersRoute.put("/me", async (c: Context) => {
       data: {
         name: data.signupName,
         meta: data.meta,
-        weight: data.weight,
-        height: data.height,
-        trainingDays: data.trainingDays,
+        weight: Number(data.weight),
+        height: Number(data.height),
+        trainingDays: parseInt(data.trainingDays),
         disease: data.disease,
         specialCondition: data.specialCondition,
         phoneNumber: data.phoneNumber,
@@ -53,6 +53,7 @@ usersRoute.put("/me", async (c: Context) => {
     });
     return c.json({ message: "Informações atualizadas com sucesso!", user: updatedUser }); 
   } catch (error) {
+    console.error('error', error);
     return c.json({ message: "Erro ao atualizar informações!", error }, 500); 
   }
 });
