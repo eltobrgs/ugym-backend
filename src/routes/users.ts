@@ -1,35 +1,32 @@
-import { Hono, Context } from "hono"; // Importa as classes Hono e Context para definir e gerenciar rotas
-import { User } from "@prisma/client"; // Importa o tipo User do Prisma Client para tipagem
-import prisma from "../config/prisma"; // Importa a instância do cliente Prisma configurado
+import { Hono, Context } from "hono";
+import { User } from "@prisma/client";
+import prisma from "../config/prisma";
 
-// Tipo para definir a estrutura de dados ao criar um usuário, omitindo o campo 'id'
 type UserCreateInput = Omit<User, "id">;
 
-const usersRoute = new Hono(); // Cria uma nova instância da aplicação Hono
+const usersRoute = new Hono();
 
-// Rota GET para listar todos os usuários
 usersRoute.get("/", async (c: Context) => {
-  const users = await prisma.user.findMany(); // Busca todos os usuários no banco de dados
-  return c.json(users); // Retorna a lista de usuários em formato JSON
+  const users = await prisma.user.findMany();
+  return c.json(users);
 });
 
-// Rota GET para obter um usuário específico por ID
 usersRoute.get("/:id{[0-9]+}", async (c) => {
-  const id = Number(c.req.param("id")); // Obtém o ID da URL e o converte para número
-  const user = await prisma.user.findUnique({ // Busca um usuário específico pelo ID
+  const id = Number(c.req.param("id"));
+  const user = await prisma.user.findUnique({
     where: { id },
   });
-  return c.json(user); // Retorna o usuário encontrado em formato JSON
+  return c.json(user);
 });
 
-// Rota GET para obter informações do usuário autenticado
 usersRoute.get("/me", async (c) => {
-  const payload = c.get("jwtPayload"); // Obtém o payload JWT para identificação do usuário
-  const user = await prisma.user.findUnique({ // Busca o usuário baseado no ID presente no payload
+  const payload = c.get("jwtPayload");
+  const user = await prisma.user.findUnique({
     where: { id: payload.id },
   });
-  return c.json(user); // Retorna o usuário encontrado em formato JSON
+  return c.json(user);
 });
+
 
 // Nova rota PUT para atualizar as informações do usuário autenticado
 usersRoute.put("/me", async (c: Context) => {
@@ -49,16 +46,16 @@ usersRoute.put("/me", async (c: Context) => {
         disease: data.disease,
         specialCondition: data.specialCondition,
         phoneNumber: data.phoneNumber,
-        birthDate: new Date(data.birthDate), // Converte a data para o formato Date
+        birthDate: new Date(data.birthDate), 
         gender: data.gender,
         experience: data.experience,
         profileImage: data.profileImage,
       },
     });
-    return c.json({ message: "Informações atualizadas com sucesso!", user: updatedUser }); // Retorna uma mensagem de sucesso e o usuário atualizado
+    return c.json({ message: "Informações atualizadas com sucesso!", user: updatedUser }); 
   } catch (error) {
-    return c.json({ message: "Erro ao atualizar informações!", error }, 500); // Retorna uma mensagem de erro e o status 500 em caso de falha
+    return c.json({ message: "Erro ao atualizar informações!", error }, 500); 
   }
 });
 
-export default usersRoute; // Exporta a rota para uso em outros arquivos
+export default usersRoute; 
