@@ -2,7 +2,6 @@ import { Hono, Context } from "hono";
 import { User } from "@prisma/client";
 import prisma from "../config/prisma";
 
-type UserCreateInput = Omit<User, "id">;
 
 const usersRoute = new Hono();
 
