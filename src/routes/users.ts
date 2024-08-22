@@ -38,6 +38,7 @@ usersRoute.put("/me", async (c: Context) => {
       where: { id: payload.id },
       data: {
         name: data.signupName,
+        username: data.username,
         meta: data.meta,
         weight: Number(data.weight),
         height: Number(data.height),
